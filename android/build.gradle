@@ -1,0 +1,30 @@
+// React Native Android module for @miniwall/react-native.
+buildscript {
+    repositories { google(); mavenCentral() }
+    // The app's Kotlin version when it has one (RN 0.74 apps are on 1.9.x), else a recent default.
+    def kotlinVersion = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : "2.0.21"
+    dependencies { classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}" }
+}
+
+apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
+
+android {
+    namespace "com.miniwall.reactnative"
+    compileSdk 35
+    defaultConfig { minSdk 24 }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions { jvmTarget = "17" }
+}
+
+repositories { google(); mavenCentral() }
+
+dependencies {
+    implementation "com.facebook.react:react-android"
+    // The native SDK. Until it is on Maven Central, include sdks/android in your app's settings.gradle
+    // (see README) and this resolves to the local project.
+    implementation "app.miniwall:sdk:0.1.0"
+}

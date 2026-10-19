@@ -1,0 +1,13 @@
+# Restore with nothing to restore keeps the screen; Close ends it with "closed".
+appId: app.miniwall.example
+---
+- launchApp   # keeps the configuration of purchase.yaml (run it first), or repeat its first steps
+- tapOn:
+    id: "present-button"
+- assertVisible: "Go Pro"
+- tapOn: "Restore purchases"
+- assertVisible: "Go Pro"          # the sample's onRestore returns false: still open
+- tapOn: "Close"
+- assertVisible:
+    id: "result-text"
+    text: ".*closed.*"

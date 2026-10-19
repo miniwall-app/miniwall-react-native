@@ -1,0 +1,26 @@
+# Maestro flow: open the paywall, choose a plan, buy (fake 0.8 s purchase), see "purchased". Works on iOS and Android.
+# Prereq: node sdks/testdata/stub-server.js 8799, the sample app installed, `api-url-input` filled (see ../README.md).
+appId: app.miniwall.example
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "api-url-input"
+- inputText: ${API_URL}              # maestro test -e API_URL=http://127.0.0.1:8799 (iOS) or http://10.0.2.2:8799 (Android)
+- tapOn:
+    id: "api-key-input"
+- inputText: "pk_test_ui"
+- hideKeyboard
+- tapOn:
+    id: "configure-button"
+- tapOn:
+    id: "present-button"
+- assertVisible: "Go Pro"
+- tapOn: "Monthly.*"
+- assertVisible:
+    text: "Monthly.*"
+    selected: true
+- tapOn: "Subscribe"
+- assertVisible:
+    id: "result-text"
+    text: ".*purchased.*monthly.*"
