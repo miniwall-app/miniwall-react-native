@@ -4,7 +4,7 @@ Two layers, because the screen Miniwall shows is native (SwiftUI / Compose), not
 
 | Layer | Tool | Covers | Where |
 |---|---|---|---|
-| TypeScript wrapper | **Jest** (runs anywhere, no simulator) | `present`/reply protocol, handler results, errors, timeout rejection, `dispose`, `stopAutoPlacements`, Fast Refresh | `../__tests__`, `npm test` in `sdks/react-native` |
+| TypeScript wrapper | **Jest** (runs anywhere, no simulator) | `present`/reply protocol, handler results, errors, timeout rejection, `dispose`, `stopAutoPlacements`, Fast Refresh | `../__tests__`, `npm test` in this repository |
 | App + native bridge | **Detox** (`miniwall.e2e.ts`) | configure/present from RN, toast auto-close, skipped (cap, holdout), offline cache, auto placements, Android Back | here |
 | Inside the native screen | **Maestro** (`maestro/*.yaml`) | choose plan, buy, restore, close, multi-screen flow + Back, required question, Android Back | here |
 
