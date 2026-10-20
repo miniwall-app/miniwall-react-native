@@ -19,6 +19,7 @@
     "app.plugin.js",
     "*.podspec",
     "README.md",
+    "CHANGELOG.md",
     "!android/build",
     "!android/.gradle"
   ],
