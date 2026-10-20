@@ -31,8 +31,11 @@ jobs:
           [ "$v" = "$TAG" ] || { echo "::error::tag $TAG does not match package.json ($v)"; exit 1; }
           grep -qE "^## ${TAG//./\\.}( |$)" CHANGELOG.md || { echo "::error::CHANGELOG.md has no '## $TAG' section"; exit 1; }
           android=$(sed -n 's/.*"app.miniwall:sdk:\([^"]*\)".*/\1/p' android/build.gradle)
-          curl -fsSI "https://repo1.maven.org/maven2/app/miniwall/sdk/$android/sdk-$android.pom" >/dev/null || { echo "::error::app.miniwall:sdk:$android is not on Maven Central yet"; exit 1; }
-          curl -fsS https://trunk.cocoapods.org/api/v1/pods/MiniwallSDK | grep -q '"name":"0\.' || { echo "::error::MiniwallSDK is not on CocoaPods yet"; exit 1; }
+          [ "$android" = "$TAG" ] || { echo "::error::android/build.gradle depends on app.miniwall:sdk:$android, expected $TAG (the SDKs release together)"; exit 1; }
+          curl -fsSI "https://repo1.maven.org/maven2/app/miniwall/sdk/$TAG/sdk-$TAG.pom" >/dev/null || { echo "::error::app.miniwall:sdk:$TAG is not on Maven Central yet"; exit 1; }
+          for pod in MiniwallCore MiniwallSDK; do
+            curl -fsS -o /dev/null "https://trunk.cocoapods.org/api/v1/pods/$pod/specs/$TAG" || { echo "::error::$pod $TAG is not on CocoaPods yet"; exit 1; }
+          done
           echo "enabled=${ENABLED:-false}" >> "$GITHUB_OUTPUT"
 
   publish:
@@ -54,9 +57,15 @@ jobs:
       - run: npm ci && npm run typecheck && npm test
       - run: npm pack --dry-run
       # First publish needs a token (see the web workflow); afterwards switch to trusted publishing and delete NPM_TOKEN.
-      - run: npm publish --access public --provenance
+      - name: publish (prerelease tags go out under `next`)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          dist=latest; case "$TAG" in *-*) dist=next;; esac
+          if npm view "@miniwall/react-native@$TAG" version >/dev/null 2>&1; then echo "already on npm, skipping"; exit 0; fi
+          npm publish --access public --provenance --tag "$dist"
 
   github-release:
     name: GitHub release
