@@ -1,7 +1,7 @@
 # @miniwall/react-native
 
 Miniwall for React Native: screens built in the Miniwall dashboard, rendered natively by the iOS
-and Android SDKs. React Native 0.74+ (tested on 0.88 / Expo SDK 58; Expo SDK 58 itself needs iOS 16.4+), iOS 16+, Android minSdk 24. React Native 0.74 does not start on the iOS 27 SDK (no scene lifecycle): use a current release there (0.88 is tested). Status: preview (not on npm yet).
+and Android SDKs. React Native 0.74+ (tested on 0.88 / Expo SDK 58; Expo SDK 58 itself needs iOS 16.4+), iOS 16+, Android minSdk 24. React Native 0.74 does not start on the iOS 27 SDK (no scene lifecycle): use a current release there (0.88 is tested). Status: preview (not on npm yet). Tested with Expo SDK 58 / React Native 0.88 on an Android 15 emulator and an iOS 27 simulator: Jest 26/26, the sample app (configure, present, purchase), and the 77-template sweep on both (light mode; dark and largest text were swept before the last two rounds of changes).
 
 ## Install (local, before publishing)
 
