@@ -24,7 +24,7 @@ repositories { google(); mavenCentral() }
 
 dependencies {
     implementation "com.facebook.react:react-android"
-    // The native SDK. Until it is on Maven Central, include sdks/android in your app's settings.gradle
+    // The native SDK. Until it is on Maven Central, include miniwall-android in your app's settings.gradle
     // (see README) and this resolves to the local project.
     implementation "app.miniwall:sdk:0.1.0"
 }

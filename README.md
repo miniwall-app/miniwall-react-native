@@ -5,9 +5,9 @@ and Android SDKs. React Native 0.74+ (tested on 0.88 / Expo SDK 58; Expo SDK 58 
 
 ## Install (local, before publishing)
 
-1. `npm install <repo>/sdks/react-native`
-2. iOS `Podfile`: `pod 'MiniwallCore', :path => '<repo>/sdks/ios'` and `pod 'MiniwallSDK', :path => '<repo>/sdks/ios'`, then `pod install`. The wrapper pod depends on `MiniwallSDK ~> 0.1`; until that pod is published, the two `:path` lines above are required.
-3. Android: until `app.miniwall:sdk` is on Maven Central, publish it once to your machine (`cd <repo>/sdks/android && ./gradlew publishToMavenLocal`) and add `mavenLocal()` to the app's `allprojects { repositories { ... } }` (the Expo config plugin does this with `androidMavenLocal: true`). Do not use `includeBuild` with a current React Native: the native SDK builds with AGP 8.7.3, React Native 0.88 / Expo SDK 58 with AGP 9, and Gradle refuses two AGP versions in one build. Add `MiniwallPackage()` to your packages if autolinking does not.
+1. `npm install <path to this checkout>`
+2. iOS `Podfile`: `pod 'MiniwallCore', :path => '<miniwall-ios checkout>'` and `pod 'MiniwallSDK', :path => '<miniwall-ios checkout>'`, then `pod install`. The wrapper pod depends on `MiniwallSDK ~> 0.1`; until that pod is published, the two `:path` lines above are required.
+3. Android: until `app.miniwall:sdk` is on Maven Central, publish it once to your machine (`cd <miniwall-android checkout> && ./gradlew publishToMavenLocal`) and add `mavenLocal()` to the app's `allprojects { repositories { ... } }` (the Expo config plugin does this with `androidMavenLocal: true`). Do not use `includeBuild` with a current React Native: the native SDK builds with AGP 8.7.3, React Native 0.88 / Expo SDK 58 with AGP 9, and Gradle refuses two AGP versions in one build. Add `MiniwallPackage()` to your packages if autolinking does not.
 4. Expo: use a development build (Expo Go cannot load native modules).
 
 ## Use
