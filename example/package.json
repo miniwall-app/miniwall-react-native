@@ -1,0 +1,30 @@
+{
+  "name": "miniwall-react-native-example",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "gen:templates": "node tool/gen-templates.js",
+    "prestart": "npm run gen:templates",
+    "preios": "npm run gen:templates",
+    "preandroid": "npm run gen:templates",
+    "start": "expo start --dev-client",
+    "ios": "expo run:ios",
+    "android": "expo run:android",
+    "prebuild": "expo prebuild --clean",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@miniwall/react-native": "file:..",
+    "expo": "~58.0.14",
+    "expo-build-properties": "~58.0.11",
+    "expo-status-bar": "~58.0.3",
+    "react": "19.3.0",
+    "react-native": "0.88.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@types/react": "~18.2.79",
+    "typescript": "~5.3.3"
+  }
+}

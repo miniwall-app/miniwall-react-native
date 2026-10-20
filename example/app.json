@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "Miniwall sample",
+    "slug": "miniwall-rn-example",
+    "scheme": "miniwall-example",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "splash": { "backgroundColor": "#ffffff" },
+    "ios": { "bundleIdentifier": "app.miniwall.example", "supportsTablet": true },
+    "android": { "package": "app.miniwall.example" },
+    "plugins": [
+      ["expo-build-properties", { "ios": { "deploymentTarget": "16.4" }, "android": { "minSdkVersion": 24 } }],
+      ["@miniwall/react-native", { "nativeSdkPath": "../..", "androidMavenLocal": true }]
+    ]
+  }
+}

@@ -54,3 +54,15 @@ is handled: the old listener is removed and the native side frees every screen w
   Throwing keeps the screen open and calls `onError`.
 - `onAnswer({ fieldId, value, answers })`, `onOpenUrl(url)`: notifications; the screen does not wait for them.
 - `onError(error: Error)`: failures the screen reports (load failure, a handler that threw, an unusable link); `error.message` has the reason.
+
+## Develop
+
+```bash
+scripts/fetch-spec.sh   # the Miniwall spec pinned in SPEC_VERSION -> .spec/ (or set MINIWALL_SPEC_DIR to your own checkout)
+npm ci && npm run typecheck && npm test
+```
+
+`example/` is a sample Expo app (a development build; Expo Go cannot load native modules) that bundles the spec's templates:
+`cd example && npm install && npx expo prebuild && npm run ios` (or `android`). `e2e/` holds the Detox and Maestro flows that drive it
+against the spec's mock API (`node .spec/mock-api/server.cjs 8799`); see `e2e/README.md`. To sweep a bigger library than the open spec's
+ten example templates, set `MINIWALL_SPEC_DIR` to a spec folder that has more `fixtures/templates`.

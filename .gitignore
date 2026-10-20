@@ -2,3 +2,5 @@ node_modules/
 lib/
 android/build/
 android/.gradle/
+.spec/
+example/templates.generated.ts
