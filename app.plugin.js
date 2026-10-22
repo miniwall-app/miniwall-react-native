@@ -51,7 +51,24 @@ function withAndroidMavenLocal(config) {
   });
 }
 
+// The Miniwall Maven repository (https://maven.miniwall.app) holds app.miniwall:sdk. Added to every Android build.
+function addMiniwallMaven(contents) {
+  if (contents.includes('maven.miniwall.app')) return contents;
+  return contents.replace(
+    /allprojects\s*\{\s*repositories\s*\{/,
+    (m) => `${m}\n    maven { url 'https://maven.miniwall.app'; content { includeGroup 'app.miniwall' } } // ${TAG}`
+  );
+}
+
+function withMiniwallMaven(config) {
+  return withProjectBuildGradle(config, (c) => {
+    c.modResults.contents = addMiniwallMaven(c.modResults.contents);
+    return c;
+  });
+}
+
 function withAndroid(config, nativeSdkPath, mavenLocal) {
+  config = withMiniwallMaven(config);
   if (mavenLocal) return withAndroidMavenLocal(config);
   if (!nativeSdkPath) return config;
   return withSettingsGradle(config, (c) => {
@@ -69,3 +86,4 @@ module.exports = function withMiniwall(config, props = {}) {
   return withAndroid(withIos(config, nativeSdkPath), nativeSdkPath, props.androidMavenLocal === true);
 };
 module.exports.nativeDir = nativeDir;
+module.exports.addMiniwallMaven = addMiniwallMaven;

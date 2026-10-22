@@ -20,11 +20,18 @@ android {
     kotlinOptions { jvmTarget = "17" }
 }
 
-repositories { google(); mavenCentral() }
+repositories {
+    google()
+    mavenCentral()
+    maven {
+        url "https://maven.miniwall.app"
+        content { includeGroup "app.miniwall" }
+    }
+}
 
 dependencies {
     implementation "com.facebook.react:react-android"
-    // The native SDK. Until it is on Maven Central, include miniwall-android in your app's settings.gradle
-    // (see README) and this resolves to the local project.
+    // The native SDK, from https://maven.miniwall.app (the Expo config plugin and the README add the repository to the app).
+    // To work on it locally, include miniwall-android in your app's settings.gradle (see README) and this resolves to the local project.
     implementation "app.miniwall:sdk:0.1.0"
 }

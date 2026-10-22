@@ -4,7 +4,10 @@ import * as os from 'os';
 import * as path from 'path';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const { nativeDir } = require('../app.plugin.js') as { nativeDir: (base: string, platform: string) => string };
+const { nativeDir, addMiniwallMaven } = require('../app.plugin.js') as {
+  nativeDir: (base: string, platform: string) => string;
+  addMiniwallMaven: (contents: string) => string;
+};
 
 describe('nativeDir', () => {
   const base = fs.mkdtempSync(path.join(os.tmpdir(), 'miniwall-plugin-'));
@@ -23,5 +26,24 @@ describe('nativeDir', () => {
 
   it('names the miniwall-<platform> path when neither exists, so the error points at it', () => {
     expect(nativeDir(base, 'flutter')).toBe(path.join(base, 'miniwall-flutter'));
+  });
+});
+
+describe('addMiniwallMaven', () => {
+  const gradle = "allprojects {\n  repositories {\n    google()\n    mavenCentral()\n  }\n}\n";
+
+  it('adds the Miniwall Maven repository to allprojects, limited to its group', () => {
+    const out = addMiniwallMaven(gradle);
+    expect(out).toContain("maven { url 'https://maven.miniwall.app'; content { includeGroup 'app.miniwall' } }");
+    expect(out.indexOf('maven.miniwall.app')).toBeLessThan(out.indexOf('google()'));
+  });
+
+  it('does not add it twice', () => {
+    const once = addMiniwallMaven(gradle);
+    expect(addMiniwallMaven(once)).toBe(once);
+  });
+
+  it('leaves a file without allprojects repositories alone', () => {
+    expect(addMiniwallMaven('buildscript {}\n')).toBe('buildscript {}\n');
   });
 });

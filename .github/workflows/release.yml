@@ -32,7 +32,7 @@ jobs:
           grep -qE "^## ${TAG//./\\.}( |$)" CHANGELOG.md || { echo "::error::CHANGELOG.md has no '## $TAG' section"; exit 1; }
           android=$(sed -n 's/.*"app.miniwall:sdk:\([^"]*\)".*/\1/p' android/build.gradle)
           [ "$android" = "$TAG" ] || { echo "::error::android/build.gradle depends on app.miniwall:sdk:$android, expected $TAG (the SDKs release together)"; exit 1; }
-          curl -fsSI "https://repo1.maven.org/maven2/app/miniwall/sdk/$TAG/sdk-$TAG.pom" >/dev/null || { echo "::error::app.miniwall:sdk:$TAG is not on Maven Central yet"; exit 1; }
+          curl -fsSI "https://maven.miniwall.app/app/miniwall/sdk/$TAG/sdk-$TAG.pom" >/dev/null || { echo "::error::app.miniwall:sdk:$TAG is not on maven.miniwall.app yet"; exit 1; }
           for pod in MiniwallCore MiniwallSDK; do
             curl -fsS -o /dev/null "https://trunk.cocoapods.org/api/v1/pods/$pod/specs/$TAG" || { echo "::error::$pod $TAG is not on CocoaPods yet"; exit 1; }
           done
