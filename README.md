@@ -1,12 +1,12 @@
 # @miniwall/react-native
 
 Miniwall for React Native: screens built in the Miniwall dashboard, rendered natively by the iOS
-and Android SDKs. React Native 0.74+ (tested on 0.88 / Expo SDK 58; Expo SDK 58 itself needs iOS 16.4+), iOS 16+, Android minSdk 24. React Native 0.74 does not start on the iOS 27 SDK (no scene lifecycle): use a current release there (0.88 is tested). Status: preview (not on npm yet). Tested with Expo SDK 58 / React Native 0.88 on an Android 15 emulator and an iOS 27 simulator: Jest 26/26, the sample app (configure, present, purchase), and the 77-template sweep on both (light mode; dark and largest text were swept before the last two rounds of changes).
+and Android SDKs. React Native 0.74+ (tested on 0.88 / Expo SDK 58; Expo SDK 58 itself needs iOS 16.4+), iOS 16+, Android minSdk 24. React Native 0.74 does not start on the iOS 27 SDK (no scene lifecycle): use a current release there (0.88 is tested). Status: `0.1.0`. Tested with Expo SDK 58 / React Native 0.88 on an Android 15 emulator and an iOS 27 simulator: Jest 26/26, the sample app (configure, present, purchase), and the 77-template sweep on both (light mode; dark and largest text were swept before the last two rounds of changes).
 
-## Install (local, before publishing)
+## Install
 
-1. `npm install <path to this checkout>`
-2. iOS `Podfile`: `pod 'MiniwallCore', :path => '<miniwall-ios checkout>'` and `pod 'MiniwallSDK', :path => '<miniwall-ios checkout>'`, then `pod install`. The wrapper pod depends on `MiniwallSDK ~> 0.1`; until that pod is published, the two `:path` lines above are required.
+1. `npm install @miniwall/react-native` (Expo: `npx expo install @miniwall/react-native`).
+2. iOS: `cd ios && pod install`. The wrapper pod pulls `MiniwallSDK` from CocoaPods.
 3. Android: `app.miniwall:sdk` is served from `https://maven.miniwall.app`. The Expo config plugin adds that repository to the app; in a bare React Native app add `maven { url "https://maven.miniwall.app"; content { includeGroup "app.miniwall" } }` to `allprojects { repositories { ... } }` in `android/build.gradle`.
 4. Expo: use a development build (Expo Go cannot load native modules).
 
