@@ -57,7 +57,7 @@ jobs:
       - run: npm ci && npm run typecheck && npm test
       - run: npm pack --dry-run
       # First publish needs a token (add a granular, publish-only NPM_TOKEN as a repository secret); afterwards switch to trusted publishing and delete it.
-      # No --provenance while this repository is private (npm issues provenance only for public repositories): add it back once the repository is public.
+      # --provenance: the repository is public, so npm signs where the package was built (needs id-token: write and the repository URL in package.json).
       - name: publish (prerelease tags go out under `next`)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -66,7 +66,7 @@ jobs:
           set -euo pipefail
           dist=latest; case "$TAG" in *-*) dist=next;; esac
           if npm view "@miniwall/react-native@$TAG" version >/dev/null 2>&1; then echo "already on npm, skipping"; exit 0; fi
-          npm publish --access public --tag "$dist"
+          npm publish --provenance --access public --tag "$dist"
 
   github-release:
     name: GitHub release
